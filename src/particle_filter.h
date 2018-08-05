@@ -9,6 +9,7 @@
 #ifndef PARTICLE_FILTER_H_
 #define PARTICLE_FILTER_H_
 
+#include <random>
 #include "helper_functions.h"
 
 struct Particle {
@@ -27,17 +28,24 @@ struct Particle {
 
 class ParticleFilter {
 	
+private:
 	// Number of particles to draw
 	int num_particles; 
 	
-	
+    // Static particle id
+    static int part_id;	
 	
 	// Flag, if filter is initialized
 	bool is_initialized;
 	
 	// Vector of weights of all particles
 	std::vector<double> weights;
+
+    double max_weight;
 	
+    // Normal Distribution engine
+    std::default_random_engine gen;
+
 public:
 	
 	// Set of current particles
@@ -78,7 +86,8 @@ public:
 	 * @param predicted Vector of predicted landmark observations
 	 * @param observations Vector of landmark observations
 	 */
-	void dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations);
+	//void dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations);
+	void dataAssociation(Map map_landmarks, std::vector<LandmarkObs>& observations);
 	
 	/**
 	 * updateWeights Updates the weights for each particle based on the likelihood of the 
